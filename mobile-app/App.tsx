@@ -79,7 +79,7 @@ const sendLocationToServer = async (locationData: LocationData, serverUrl: strin
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    const response = await fetch(`${serverUrl}/api/location`, {
+    const response = await fetch(`${serverUrl.replace(/\/$/, '')}/api/location`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -241,7 +241,7 @@ const App = () => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-      const response = await fetch(`${serverUrl}/api/location`, {
+      const response = await fetch(`${serverUrl.replace(/\/$/, '')}/api/location`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -350,7 +350,7 @@ const App = () => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-      const response = await fetch(`${serverUrl}/api/vehicles`, {
+      const response = await fetch(`${serverUrl.replace(/\/$/, '')}/api/vehicles`, {
         method: 'GET',
         signal: controller.signal,
       });
