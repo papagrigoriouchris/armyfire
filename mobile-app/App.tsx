@@ -54,7 +54,7 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
       try {
         // Get stored settings
         const vehicleId = await AsyncStorage.getItem('vehicleId') || 'PATROL-001';
-        const serverUrl = await AsyncStorage.getItem('serverUrl') || 'http://192.168.1.100:3001';
+        const serverUrl = await AsyncStorage.getItem('serverUrl');
         
         const locationData: LocationData = {
           vehicleId,
@@ -122,7 +122,7 @@ const storeFailedLocation = async (locationData: LocationData) => {
 
 const App = () => {
   const [vehicleId, setVehicleId] = useState('PATROL-001');
-  const [serverUrl, setServerUrl] = useState('http://192.168.1.100:3001');
+  const [serverUrl, setServerUrl] = useState('https://armyfire-production.up.railway.app');
   const [isTracking, setIsTracking] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<LocationData | null>(null);
   const [lastSentTime, setLastSentTime] = useState<Date | null>(null);
