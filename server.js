@@ -10,7 +10,8 @@ const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "https://armyfire-production.up.railway.app",
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST"],
+     credentials: true,
   }
 });
 
