@@ -47,7 +47,7 @@ function App() {
 
   useEffect(() => {
     // Connect to Socket.IO server (will be running on port 3001)
-    const newSocket = io('http://localhost:3001');
+    const newSocket = io('http://localhost:https://armyfire-production.up.railway.app');
     setSocket(newSocket);
 
     newSocket.on('connect', () => {
