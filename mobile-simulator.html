@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Simulator - Αποστολή Θέσης</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="container mx-auto p-4">
+        <h1 class="text-2xl font-bold mb-6 text-center">Mobile Simulator</h1>
+        
+        <div class="max-w-md mx-auto bg-gray-800 rounded-lg p-6">
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Vehicle ID</label>
+                <input type="text" id="vehicleId" value="PATROL-001" 
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Latitude</label>
+                <input type="number" id="latitude" value="37.9755" step="0.000001"
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Longitude</label>
+                <input type="number" id="longitude" value="23.7348" step="0.000001"
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Speed (km/h)</label>
+                <input type="number" id="speed" value="30" min="0" max="200"
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white">
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-sm font-medium mb-2">Heading (degrees)</label>
+                <input type="number" id="heading" value="0" min="0" max="360"
+                       class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white">
+            </div>
+            
+            <div class="space-y-3">
+                <button onclick="sendPosition()" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors">
+                    Αποστολή Θέσης
+                </button>
+                
+                <button onclick="toggleAutoSend()" id="autoSendBtn"
+                        class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors">
+                    Έναρξη Αυτόματης Αποστολής
+                </button>
+                
+                <button onclick="simulateRoute()" 
+                        class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-md transition-colors">
+                    Προσομοίωση Διαδρομής
+                </button>
+            </div>
+            
+            <div id="status" class="mt-4 p-3 bg-gray-700 rounded-md text-sm"></div>
+        </div>
+
+        <div class="max-w-md mx-auto mt-6 bg-gray-800 rounded-lg p-6">
+            <h2 class="text-lg font-bold mb-4">Προκαθορισμένες Θέσεις</h2>
+            <div class="space-y-2">
+                <button onclick="setPosition(37.9755, 23.7348)" 
+                        class="w-full text-left px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">
+                    Αθήνα (Κέντρο)
+                </button>
+                <button onclick="setPosition(37.9838, 23.7275)" 
+                        class="w-full text-left px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">
+                    Εξάρχεια
+                </button>
+                <button onclick="setPosition(37.9694, 23.7473)" 
+                        class="w-full text-left px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">
+                    Συντάγματα
+                </button>
+                <button onclick="setPosition(37.9459, 23.6517)" 
+                        class="w-full text-left px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-md transition-colors">
+                    Πειραιάς
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let autoSendInterval = null;
+        let isAutoSending = false;
+
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            const timestamp = new Date().toLocaleTimeString('el-GR');
+            const color = type === 'success' ? 'text-green-400' : 
+                         type === 'error' ? 'text-red-400' : 'text-blue-400';
+            status.innerHTML = `<span class="${color}">[${timestamp}]</span> ${message}`;
+        }
+
+        async function sendPosition() {
+            const vehicleId = document.getElementById('vehicleId').value;
+            const latitude = parseFloat(document.getElementById('latitude').value);
+            const longitude = parseFloat(document.getElementById('longitude').value);
+            const speed = parseInt(document.getElementById('speed').value);
+            const heading = parseInt(document.getElementById('heading').value);
+
+            if (!vehicleId || isNaN(latitude) || isNaN(longitude)) {
+                updateStatus('Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3001/api/location', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        vehicleId,
+                        latitude,
+                        longitude,
+                        speed,
+                        heading
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateStatus(`Θέση στάλθηκε! Σύνολο: ${data.totalDistance.toFixed(2)}km (${data.positionsCount} θέσεις)`, 'success');
+                } else {
+                    updateStatus('Σφάλμα κατά την αποστολή', 'error');
+                }
+            } catch (error) {
+                updateStatus('Σφάλμα δικτύου: ' + error.message, 'error');
+            }
+        }
+
+        function toggleAutoSend() {
+            const btn = document.getElementById('autoSendBtn');
+            
+            if (isAutoSending) {
+                clearInterval(autoSendInterval);
+                isAutoSending = false;
+                btn.textContent = 'Έναρξη Αυτόματης Αποστολής';
+                btn.className = 'w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors';
+                updateStatus('Αυτόματη αποστολή διακόπηκε', 'info');
+            } else {
+                autoSendInterval = setInterval(sendPosition, 3000); // Every 3 seconds
+                isAutoSending = true;
+                btn.textContent = 'Διακοπή Αυτόματης Αποστολής';
+                btn.className = 'w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition-colors';
+                updateStatus('Αυτόματη αποστολή ξεκίνησε (κάθε 3 δευτερόλεπτα)', 'success');
+            }
+        }
+
+        function setPosition(lat, lng) {
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+            // Add some random variation to make it more realistic
+            document.getElementById('latitude').value = lat + (Math.random() - 0.5) * 0.001;
+            document.getElementById('longitude').value = lng + (Math.random() - 0.5) * 0.001;
+            document.getElementById('speed').value = Math.floor(Math.random() * 50) + 10;
+            document.getElementById('heading').value = Math.floor(Math.random() * 360);
+        }
+
+        function simulateRoute() {
+            if (isAutoSending) {
+                updateStatus('Διακόψτε πρώτα την αυτόματη αποστολή', 'error');
+                return;
+            }
+
+            // Athens route simulation
+            const route = [
+                { lat: 37.9755, lng: 23.7348 }, // Syntagma
+                { lat: 37.9838, lng: 23.7275 }, // Exarchia
+                { lat: 37.9794, lng: 23.7365 }, // Monastiraki
+                { lat: 37.9694, lng: 23.7473 }, // Plaka
+                { lat: 37.9714, lng: 23.7267 }, // Thiseio
+                { lat: 37.9755, lng: 23.7348 }  // Back to Syntagma
+            ];
+
+            let currentIndex = 0;
+            updateStatus('Προσομοίωση διαδρομής ξεκίνησε...', 'info');
+
+            const routeInterval = setInterval(() => {
+                if (currentIndex >= route.length) {
+                    clearInterval(routeInterval);
+                    updateStatus('Προσομοίωση διαδρομής ολοκληρώθηκε', 'success');
+                    return;
+                }
+
+                const point = route[currentIndex];
+                setPosition(point.lat, point.lng);
+                sendPosition();
+                currentIndex++;
+            }, 2000);
+        }
+
+        // Initialize
+        updateStatus('Έτοιμο για αποστολή θέσης', 'info');
+    </script>
+</body>
+</html>

@@ -1,0 +1,526 @@
+{
+  "PATROL-001": {
+    "id": "PATROL-001",
+    "name": "Vehicle PATROL-001",
+    "positions": [
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:49:46.169Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:49:48.939Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:49:52.132Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:49:55.131Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:49:58.133Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:01.127Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:03.945Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:07.130Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:10.138Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:13.128Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:16.132Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:19.125Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:22.138Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:25.124Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:28.130Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:31.128Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:34.134Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:36.939Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:38.688Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:39.946Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.9755,
+        "longitude": 23.7348,
+        "timestamp": "2025-07-09T19:50:42.970Z",
+        "speed": 30,
+        "heading": 0
+      },
+      {
+        "latitude": 37.97591024232806,
+        "longitude": 23.735040892230632,
+        "timestamp": "2025-07-09T19:50:48.133Z",
+        "speed": 18,
+        "heading": 163
+      },
+      {
+        "latitude": 37.98419575585515,
+        "longitude": 23.727547623648068,
+        "timestamp": "2025-07-09T19:50:50.125Z",
+        "speed": 52,
+        "heading": 31
+      },
+      {
+        "latitude": 37.979007012252666,
+        "longitude": 23.736889281741473,
+        "timestamp": "2025-07-09T19:50:52.124Z",
+        "speed": 49,
+        "heading": 347
+      },
+      {
+        "latitude": 37.96960298761807,
+        "longitude": 23.747463233271283,
+        "timestamp": "2025-07-09T19:50:54.131Z",
+        "speed": 34,
+        "heading": 303
+      },
+      {
+        "latitude": 37.97168313462593,
+        "longitude": 23.72639475342997,
+        "timestamp": "2025-07-09T19:50:56.124Z",
+        "speed": 46,
+        "heading": 113
+      },
+      {
+        "latitude": 37.97525588866021,
+        "longitude": 23.73453814072347,
+        "timestamp": "2025-07-09T19:50:58.125Z",
+        "speed": 42,
+        "heading": 31
+      },
+      {
+        "latitude": 37.975858843139605,
+        "longitude": 23.735053608352327,
+        "timestamp": "2025-07-09T19:51:13.130Z",
+        "speed": 14,
+        "heading": 92
+      },
+      {
+        "latitude": 37.98376103491568,
+        "longitude": 23.727174489868503,
+        "timestamp": "2025-07-09T19:51:15.125Z",
+        "speed": 16,
+        "heading": 42
+      },
+      {
+        "latitude": 37.97891393297279,
+        "longitude": 23.73656557733466,
+        "timestamp": "2025-07-09T19:51:17.125Z",
+        "speed": 15,
+        "heading": 40
+      },
+      {
+        "latitude": 37.969250160640144,
+        "longitude": 23.7474484223456,
+        "timestamp": "2025-07-09T19:51:19.135Z",
+        "speed": 44,
+        "heading": 164
+      },
+      {
+        "latitude": 37.97156626320878,
+        "longitude": 23.726207411550742,
+        "timestamp": "2025-07-09T19:51:21.124Z",
+        "speed": 43,
+        "heading": 97
+      },
+      {
+        "latitude": 37.975688015744055,
+        "longitude": 23.734722504138674,
+        "timestamp": "2025-07-09T19:51:23.124Z",
+        "speed": 49,
+        "heading": 88
+      },
+      {
+        "latitude": 37.97504462363696,
+        "longitude": 23.734591366687116,
+        "timestamp": "2025-07-09T19:51:42.127Z",
+        "speed": 51,
+        "heading": 44
+      },
+      {
+        "latitude": 37.98396527812193,
+        "longitude": 23.727799747881104,
+        "timestamp": "2025-07-09T19:51:44.125Z",
+        "speed": 43,
+        "heading": 344
+      },
+      {
+        "latitude": 37.97890419668796,
+        "longitude": 23.73613524053561,
+        "timestamp": "2025-07-09T19:51:46.130Z",
+        "speed": 36,
+        "heading": 319
+      },
+      {
+        "latitude": 37.96923496489521,
+        "longitude": 23.746927452324158,
+        "timestamp": "2025-07-09T19:51:48.131Z",
+        "speed": 36,
+        "heading": 39
+      },
+      {
+        "latitude": 37.97163027433853,
+        "longitude": 23.727067150841645,
+        "timestamp": "2025-07-09T19:51:50.124Z",
+        "speed": 19,
+        "heading": 305
+      },
+      {
+        "latitude": 37.975843507079986,
+        "longitude": 23.734347673346093,
+        "timestamp": "2025-07-09T19:51:52.124Z",
+        "speed": 44,
+        "heading": 295
+      },
+      {
+        "latitude": 37.975834849484855,
+        "longitude": 23.734671273955815,
+        "timestamp": "2025-07-09T20:00:12.151Z",
+        "speed": 58,
+        "heading": 65
+      },
+      {
+        "latitude": 37.98360732066312,
+        "longitude": 23.727058995500116,
+        "timestamp": "2025-07-09T20:00:14.127Z",
+        "speed": 13,
+        "heading": 2
+      },
+      {
+        "latitude": 37.97978870918083,
+        "longitude": 23.736994125021795,
+        "timestamp": "2025-07-09T20:00:16.126Z",
+        "speed": 17,
+        "heading": 2
+      },
+      {
+        "latitude": 37.969587886308865,
+        "longitude": 23.74726118971899,
+        "timestamp": "2025-07-09T20:00:18.134Z",
+        "speed": 16,
+        "heading": 164
+      },
+      {
+        "latitude": 37.971856048683286,
+        "longitude": 23.726629487816034,
+        "timestamp": "2025-07-09T20:00:20.128Z",
+        "speed": 54,
+        "heading": 120
+      },
+      {
+        "latitude": 37.975624156136774,
+        "longitude": 23.734884465428816,
+        "timestamp": "2025-07-09T20:00:22.124Z",
+        "speed": 54,
+        "heading": 43
+      },
+      {
+        "latitude": 37.97541608982757,
+        "longitude": 23.734863732305836,
+        "timestamp": "2025-07-09T20:14:09.148Z",
+        "speed": 51,
+        "heading": 296
+      },
+      {
+        "latitude": 37.98353870900161,
+        "longitude": 23.727752932809015,
+        "timestamp": "2025-07-09T20:14:11.128Z",
+        "speed": 30,
+        "heading": 305
+      },
+      {
+        "latitude": 37.97907592056066,
+        "longitude": 23.736866057057057,
+        "timestamp": "2025-07-09T20:14:13.129Z",
+        "speed": 29,
+        "heading": 328
+      },
+      {
+        "latitude": 37.96981791038236,
+        "longitude": 23.74745312667405,
+        "timestamp": "2025-07-09T20:14:15.134Z",
+        "speed": 22,
+        "heading": 71
+      },
+      {
+        "latitude": 37.97095420768332,
+        "longitude": 23.72702364462883,
+        "timestamp": "2025-07-09T20:14:17.127Z",
+        "speed": 32,
+        "heading": 221
+      },
+      {
+        "latitude": 37.975724374334256,
+        "longitude": 23.735253174688374,
+        "timestamp": "2025-07-09T20:14:19.124Z",
+        "speed": 18,
+        "heading": 233
+      }
+    ],
+    "totalDistance": 31.106478336819468,
+    "status": "offline",
+    "lastUpdate": "2025-07-09T20:14:19.124Z"
+  },
+  "PATROL-002": {
+    "id": "PATROL-002",
+    "name": "Vehicle PATROL-002",
+    "positions": [
+      {
+        "latitude": 37.975843507079986,
+        "longitude": 23.734347673346093,
+        "timestamp": "2025-07-09T19:52:09.123Z",
+        "speed": 44,
+        "heading": 295
+      },
+      {
+        "latitude": 37.975608075019586,
+        "longitude": 23.73438599714912,
+        "timestamp": "2025-07-09T19:52:17.128Z",
+        "speed": 46,
+        "heading": 49
+      },
+      {
+        "latitude": 37.98386647039003,
+        "longitude": 23.727619273802723,
+        "timestamp": "2025-07-09T19:52:19.124Z",
+        "speed": 43,
+        "heading": 215
+      },
+      {
+        "latitude": 37.979250487044254,
+        "longitude": 23.73636828966375,
+        "timestamp": "2025-07-09T19:52:21.124Z",
+        "speed": 35,
+        "heading": 311
+      },
+      {
+        "latitude": 37.96925694122679,
+        "longitude": 23.747635929074903,
+        "timestamp": "2025-07-09T19:52:23.131Z",
+        "speed": 34,
+        "heading": 247
+      },
+      {
+        "latitude": 37.97125264546474,
+        "longitude": 23.726821418769013,
+        "timestamp": "2025-07-09T19:52:25.124Z",
+        "speed": 42,
+        "heading": 49
+      },
+      {
+        "latitude": 37.97546071421468,
+        "longitude": 23.734674338273724,
+        "timestamp": "2025-07-09T19:52:27.125Z",
+        "speed": 21,
+        "heading": 63
+      }
+    ],
+    "totalDistance": 6.199330917338971,
+    "status": "offline",
+    "lastUpdate": "2025-07-09T19:52:27.125Z"
+  },
+  "PATROL-003": {
+    "id": "PATROL-003",
+    "name": "Vehicle PATROL-003",
+    "positions": [
+      {
+        "latitude": 37.97546071421468,
+        "longitude": 23.734674338273724,
+        "timestamp": "2025-07-09T19:52:40.738Z",
+        "speed": 21,
+        "heading": 63
+      },
+      {
+        "latitude": 37.97548926441775,
+        "longitude": 23.734583090484264,
+        "timestamp": "2025-07-09T19:52:51.132Z",
+        "speed": 29,
+        "heading": 188
+      },
+      {
+        "latitude": 37.983749974013556,
+        "longitude": 23.727546862240644,
+        "timestamp": "2025-07-09T19:52:53.124Z",
+        "speed": 15,
+        "heading": 179
+      },
+      {
+        "latitude": 37.979668395380095,
+        "longitude": 23.736153452469058,
+        "timestamp": "2025-07-09T19:52:55.124Z",
+        "speed": 50,
+        "heading": 47
+      },
+      {
+        "latitude": 37.969859567917055,
+        "longitude": 23.74778200228029,
+        "timestamp": "2025-07-09T19:52:57.130Z",
+        "speed": 49,
+        "heading": 293
+      },
+      {
+        "latitude": 37.97128144534495,
+        "longitude": 23.726768624154044,
+        "timestamp": "2025-07-09T19:52:59.123Z",
+        "speed": 14,
+        "heading": 166
+      },
+      {
+        "latitude": 37.97549476529617,
+        "longitude": 23.734480573361946,
+        "timestamp": "2025-07-09T19:53:01.123Z",
+        "speed": 13,
+        "heading": 227
+      },
+      {
+        "latitude": 37.97544247719864,
+        "longitude": 23.735279965348845,
+        "timestamp": "2025-07-09T19:56:29.244Z",
+        "speed": 31,
+        "heading": 299
+      },
+      {
+        "latitude": 37.98425191839948,
+        "longitude": 23.72713535762032,
+        "timestamp": "2025-07-09T19:56:31.128Z",
+        "speed": 50,
+        "heading": 130
+      },
+      {
+        "latitude": 37.97976994580105,
+        "longitude": 23.736047869630116,
+        "timestamp": "2025-07-09T19:56:33.131Z",
+        "speed": 27,
+        "heading": 292
+      },
+      {
+        "latitude": 37.96935087897468,
+        "longitude": 23.746901418224557,
+        "timestamp": "2025-07-09T19:56:35.158Z",
+        "speed": 51,
+        "heading": 245
+      },
+      {
+        "latitude": 37.971864924757575,
+        "longitude": 23.726813736482647,
+        "timestamp": "2025-07-09T19:56:37.133Z",
+        "speed": 34,
+        "heading": 227
+      },
+      {
+        "latitude": 37.975226726637786,
+        "longitude": 23.734961149524775,
+        "timestamp": "2025-07-09T19:56:39.130Z",
+        "speed": 13,
+        "heading": 219
+      }
+    ],
+    "totalDistance": 12.456393525778212,
+    "status": "offline",
+    "lastUpdate": "2025-07-09T19:56:39.130Z"
+  }
+}

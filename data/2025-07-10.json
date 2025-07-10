@@ -1,0 +1,127 @@
+{
+  "PATROL-001": {
+    "id": "PATROL-001",
+    "name": "Vehicle PATROL-001",
+    "positions": [
+      {
+        "latitude": 37.975473305017324,
+        "longitude": 23.734966239846674,
+        "timestamp": "2025-07-10T20:40:09.654Z",
+        "speed": 24,
+        "heading": 51
+      },
+      {
+        "latitude": 37.98334215708622,
+        "longitude": 23.727729132849127,
+        "timestamp": "2025-07-10T20:40:11.557Z",
+        "speed": 46,
+        "heading": 22
+      },
+      {
+        "latitude": 37.97919191386329,
+        "longitude": 23.736406663558114,
+        "timestamp": "2025-07-10T20:40:13.558Z",
+        "speed": 18,
+        "heading": 62
+      },
+      {
+        "latitude": 37.96950069306176,
+        "longitude": 23.74683286489745,
+        "timestamp": "2025-07-10T20:40:15.562Z",
+        "speed": 56,
+        "heading": 33
+      },
+      {
+        "latitude": 37.97121309874906,
+        "longitude": 23.72677317314531,
+        "timestamp": "2025-07-10T20:40:17.560Z",
+        "speed": 48,
+        "heading": 4
+      },
+      {
+        "latitude": 37.97577096879729,
+        "longitude": 23.734951919529188,
+        "timestamp": "2025-07-10T20:40:19.567Z",
+        "speed": 51,
+        "heading": 340
+      }
+    ],
+    "totalDistance": 6.0299081757625625,
+    "status": "offline",
+    "lastUpdate": "2025-07-10T20:40:19.567Z"
+  },
+  "ΕΣ200345": {
+    "id": "ΕΣ200345",
+    "name": "Vehicle ΕΣ200345",
+    "positions": [
+      {
+        "latitude": 37.975359291224876,
+        "longitude": 23.73437003774208,
+        "timestamp": "2025-07-10T20:44:49.577Z",
+        "speed": 48,
+        "heading": 332
+      },
+      {
+        "latitude": 37.983463051149194,
+        "longitude": 23.727894780487343,
+        "timestamp": "2025-07-10T20:44:51.558Z",
+        "speed": 48,
+        "heading": 8
+      },
+      {
+        "latitude": 37.979807515785936,
+        "longitude": 23.736668091806994,
+        "timestamp": "2025-07-10T20:44:53.559Z",
+        "speed": 39,
+        "heading": 181
+      },
+      {
+        "latitude": 37.969340483022435,
+        "longitude": 23.74768076437291,
+        "timestamp": "2025-07-10T20:44:55.566Z",
+        "speed": 55,
+        "heading": 105
+      },
+      {
+        "latitude": 37.9711863535753,
+        "longitude": 23.72704289763327,
+        "timestamp": "2025-07-10T20:44:57.559Z",
+        "speed": 57,
+        "heading": 29
+      },
+      {
+        "latitude": 37.975170465922034,
+        "longitude": 23.734713608114486,
+        "timestamp": "2025-07-10T20:44:59.564Z",
+        "speed": 20,
+        "heading": 277
+      }
+    ],
+    "totalDistance": 6.072668560436822,
+    "status": "offline",
+    "lastUpdate": "2025-07-10T20:44:59.564Z"
+  },
+  "chris": {
+    "id": "chris",
+    "name": "Vehicle chris",
+    "positions": [
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-10T21:06:49.615Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-10T21:07:25.804Z",
+        "speed": 0,
+        "heading": 0
+      }
+    ],
+    "totalDistance": 0,
+    "status": "offline",
+    "lastUpdate": "2025-07-10T21:07:25.804Z"
+  }
+}

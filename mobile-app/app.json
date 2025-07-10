@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "Vehicle Tracking",
+    "slug": "vehicle-tracking-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος ακόμα και στο background",
+        "UIBackgroundModes": ["location", "background-fetch", "background-processing"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE",
+        "WAKE_LOCK",
+        "ACCESS_NETWORK_STATE",
+        "INTERNET"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος.",
+          "locationAlwaysPermission": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος ακόμα και στο background.",
+          "locationWhenInUsePermission": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος."
+        }
+      ],
+      [
+        "expo-background-fetch",
+        {
+          "backgroundFetchDescription": "Η εφαρμογή χρειάζεται background fetch για την παρακολούθηση του οχήματος."
+        }
+      ],
+      [
+        "expo-task-manager"
+      ]
+    ]
+  }
+}
