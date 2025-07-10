@@ -6,6 +6,18 @@ import fs from 'fs';
 import path from 'path';
 
 const app = express();
+
+
+// Σέρβιρε τα στατικά αρχεία από το build
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Για όλα τα άλλα routes, σέρβιρε το index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+});
+
+
+
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
