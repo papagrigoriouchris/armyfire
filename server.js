@@ -9,15 +9,21 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://armyfire-production.up.railway.app/",
+    origin: "https://armyfire-production.up.railway.app",
     methods: ["GET", "POST"]
   }
 });
 
 app.use(cors({
-  origin: ["http://localhost:8081", "https://armyfire-production.up.railway.app"],
-  methods: ["GET", "POST"],
+  origin: [
+    "http://localhost:8081", // local dev
+    "https://armyfire-production.up.railway.app", // production
+  ],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+
 app.use(express.json());
 
 // Data storage
