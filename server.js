@@ -12,8 +12,16 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, 'dist')));
 
+app.use(cors({
+  origin: [
+    "http://localhost:8082",
+    "https://armyfire-production.up.railway.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+}));
 
 const server = createServer(app);
 const io = new Server(server, {
@@ -24,23 +32,15 @@ const io = new Server(server, {
   }
 });
 
-app.use(cors({
-  origin: [
-    "https://armyfire-production.up.railway.app",
-    "localhost:8082"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-}));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Data will be saved to: ${DATA_DIR}`);
   console.log(`Today's file: ${getTodayFilename()}`);
 });
 
@@ -48,6 +48,8 @@ server.listen(PORT, () => {
 
 // Data storage
 const DATA_DIR = './data';
+
+console.log(`Data will be saved to: ${DATA_DIR}`);
 const vehicleData = new Map();
 
 // Ensure data directory exists
@@ -261,6 +263,10 @@ app.get('/api/history/:date', (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error reading historical data' });
   }
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // Clean up old vehicle data (mark as offline after 5 minutes of inactivity)
