@@ -36,6 +36,15 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Data will be saved to: ${DATA_DIR}`);
+  console.log(`Today's file: ${getTodayFilename()}`);
+});
+
+
+
 // Data storage
 const DATA_DIR = './data';
 const vehicleData = new Map();
@@ -268,9 +277,3 @@ setInterval(() => {
   });
 }, 60000); // Check every minute
 
-const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Data will be saved to: ${DATA_DIR}`);
-  console.log(`Today's file: ${getTodayFilename()}`);
-});
