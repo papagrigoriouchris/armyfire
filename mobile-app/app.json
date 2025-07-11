@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Vehicle Tracking",
-    "slug": "vehicle-tracking-app",
+    "name": "Papagrigoriou ArmyFireTrack",
+    "slug": "Papagrigoriou_ArmyFireTrack",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,11 @@
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος ακόμα και στο background",
-        "UIBackgroundModes": ["location", "background-fetch", "background-processing"]
+        "UIBackgroundModes": [
+          "location",
+          "background-fetch",
+          "background-processing"
+        ]
       }
     },
     "android": {
@@ -32,10 +36,18 @@
         "ACCESS_COARSE_LOCATION",
         "ACCESS_BACKGROUND_LOCATION",
         "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION",
         "WAKE_LOCK",
         "ACCESS_NETWORK_STATE",
-        "INTERNET"
-      ]
+        "INTERNET",
+        "RECEIVE_BOOT_COMPLETED",
+        "REQUEST_IGNORE_BATTERY_OPTIMIZATIONS",
+        "POST_NOTIFICATIONS"
+      ],
+      "foregroundServiceTypes": [
+        "location"
+      ],
+      "package": "com.papagrigoriouc.Papagrigoriou_ArmyFireTrack"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -46,7 +58,13 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος.",
           "locationAlwaysPermission": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος ακόμα και στο background.",
-          "locationWhenInUsePermission": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος."
+          "locationWhenInUsePermission": "Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για την παρακολούθηση του οχήματος.",
+          "backgroundLocationPermissionRationale": {
+            "title": "Χρειάζεται πρόσβαση στο παρασκήνιο",
+            "message": "Η εφαρμογή παρακολουθεί την τοποθεσία σας ακόμη και όταν δεν τη χρησιμοποιείτε ενεργά για να διατηρεί το όχημα ασφαλές.",
+            "buttonPositive": "ΟΚ",
+            "buttonNegative": "Άκυρο"
+          }
         }
       ],
       [
@@ -58,6 +76,11 @@
       [
         "expo-task-manager"
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "113db2fa-aeaa-4421-b324-b4273115c9ae"
+      }
+    }
   }
 }

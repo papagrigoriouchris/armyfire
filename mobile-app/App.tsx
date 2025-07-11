@@ -11,6 +11,7 @@ import {
   StatusBar,
   Platform,
   AppState,
+  Linking,
 } from 'react-native';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -174,12 +175,25 @@ const App = () => {
 
   const requestPermissions = async () => {
     try {
+      // Check if permissions are already granted
+      const { status: existingStatus } = await Location.getForegroundPermissionsAsync();
+      if (existingStatus === 'granted') {
+        const { status: backgroundStatus } = await Location.getBackgroundPermissionsAsync();
+        if (backgroundStatus === 'granted') {
+          return true;
+        }
+      }
+
       // Request location permissions
       const { status: foregroundStatus } = await Location.requestForegroundPermissionsAsync();
       if (foregroundStatus !== 'granted') {
         Alert.alert(
           'Άδεια Τοποθεσίας',
-          'Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για να λειτουργήσει'
+          'Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για να λειτουργήσει',
+            [
+            { text: 'Cancel', style: 'cancel' },
+            { text: 'Open Settings', onPress: () => Linking.openSettings() }
+          ]
         );
         return false;
       }
@@ -188,13 +202,18 @@ const App = () => {
       if (backgroundStatus !== 'granted') {
         Alert.alert(
           'Background Location',
-          'Για καλύτερη λειτουργία, επιτρέψτε την πρόσβαση στην τοποθεσία στο background'
+          'Για καλύτερη λειτουργία, επιτρέψτε την πρόσβαση στην τοποθεσία στο background',
+          [
+            { text: 'Continue without background', style: 'cancel' },
+            { text: 'Open Settings', onPress: () => Linking.openSettings() }
+          ]
         );
       }
 
       // Request notification permissions
       const { status: notificationStatus } = await Notifications.requestPermissionsAsync();
       if (notificationStatus !== 'granted') {
+        console.log('Notification permission not granted');
         Alert.alert(
           'Notifications',
           'Η εφαρμογή χρειάζεται άδεια για notifications'
@@ -298,37 +317,52 @@ const App = () => {
       Alert.alert('Σφάλμα', 'Παρακαλώ εισάγετε Vehicle ID');
       return;
     }
-
+    console.log('Starting tracking process...');
     const hasPermission = await requestPermissions();
     if (!hasPermission) {
+      console.log('Permissions not granted');
       return;
     }
-
+console.log('Permissions granted, starting location updates...');
     try {
+       // Check if task is already registered
+      const isTaskRegistered = await TaskManager.isTaskRegisteredAsync(LOCATION_TASK_NAME);
+      if (isTaskRegistered) {
+        console.log('Task already registered, stopping first...');
+        await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
+      }
       // Start background location tracking
       await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
         accuracy: Location.Accuracy.High,
-        timeInterval: 5000, // 5 seconds
-        distanceInterval: 10, // 10 meters
+        timeInterval: 10000, // 10 seconds (less aggressive for battery)
+        distanceInterval: 5, // 5 meters
+        deferredUpdatesInterval: 10000,
         foregroundService: {
           notificationTitle: 'Παρακολούθηση Οχήματος',
           notificationBody: 'Η εφαρμογή παρακολουθεί τη θέση του οχήματος',
+          notificationColor: '#3b82f6',
         },
       });
+       console.log('Location updates started successfully');
 
       setIsTracking(true);
       setSentCount(0);
       setErrorCount(0);
 
       // Send initial location
+         try {
       const location = await getCurrentLocation();
       setCurrentLocation(location);
       await sendLocationToServerLocal(location);
+        console.log('Initial location sent');
+      } catch (locationError) {
+        console.log('Error getting initial location:', locationError);
+      }
 
       Alert.alert('Επιτυχία', 'Η παρακολούθηση ξεκίνησε');
-    } catch (error) {
+    } catch (error) {``
       console.error('Start tracking error:', error);
-      Alert.alert('Σφάλμα', 'Δεν ήταν δυνατή η έναρξη της παρακολούθησης');
+      Alert.alert('Σφάλμα', `Δεν ήταν δυνατή η έναρξη της παρακολούθησης: ${error}`);
     }
   };
 
