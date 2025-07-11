@@ -26,7 +26,8 @@ const io = new Server(server, {
 
 app.use(cors({
   origin: [
-    "https://armyfire-production.up.railway.app"
+    "https://armyfire-production.up.railway.app",
+    "localhost:8082"
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
