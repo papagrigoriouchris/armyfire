@@ -4,18 +4,15 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 
 
-// Σέρβιρε τα στατικά αρχεία από το build
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(express.static(path.join(__dirname, 'dist')));
-
-// Για όλα τα άλλα routes, σέρβιρε το index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-});
-
 
 
 const server = createServer(app);
