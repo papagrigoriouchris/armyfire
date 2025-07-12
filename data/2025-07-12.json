@@ -1,0 +1,190 @@
+{
+  "chris111": {
+    "id": "chris111",
+    "name": "Vehicle chris111",
+    "positions": [
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T19:38:24.067Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T19:38:42.415Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T19:41:10.447Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T19:42:27.622Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T20:32:40.421Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T20:33:18.765Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T20:33:20.457Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T20:40:05.108Z",
+        "speed": 0,
+        "heading": 0
+      }
+    ],
+    "totalDistance": 0,
+    "status": "offline",
+    "lastUpdate": "2025-07-12T20:40:05.108Z"
+  },
+  "chris1112": {
+    "id": "chris1112",
+    "name": "Vehicle chris1112",
+    "positions": [
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T20:42:19.201Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T20:43:56.192Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T20:48:29.619Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T20:50:14.181Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.5913928,
+        "longitude": 22.9851404,
+        "timestamp": "2025-07-12T20:51:34.085Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.6028288,
+        "longitude": 22.9638144,
+        "timestamp": "2025-07-12T21:17:20.593Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.6028288,
+        "longitude": 22.9638144,
+        "timestamp": "2025-07-12T21:18:39.086Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.6028288,
+        "longitude": 22.9638144,
+        "timestamp": "2025-07-12T21:20:09.522Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.6028288,
+        "longitude": 22.9638144,
+        "timestamp": "2025-07-12T21:59:03.068Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.6028288,
+        "longitude": 22.9638144,
+        "timestamp": "2025-07-12T22:01:21.228Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.6028288,
+        "longitude": 22.9638144,
+        "timestamp": "2025-07-12T22:06:38.554Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.6028288,
+        "longitude": 22.9638144,
+        "timestamp": "2025-07-12T22:11:42.681Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.6028288,
+        "longitude": 22.9638144,
+        "timestamp": "2025-07-12T22:11:58.012Z",
+        "speed": 0,
+        "heading": 0
+      },
+      {
+        "latitude": 40.6028288,
+        "longitude": 22.9638144,
+        "timestamp": "2025-07-12T22:22:08.493Z",
+        "speed": 0,
+        "heading": 0
+      }
+    ],
+    "totalDistance": 2.2043331751733213,
+    "status": "online",
+    "lastUpdate": "2025-07-12T22:22:08.493Z"
+  },
+  "test1": {
+    "id": "test1",
+    "name": "Vehicle test1",
+    "positions": [
+      {
+        "latitude": 40.6028288,
+        "longitude": 22.9638144,
+        "timestamp": "2025-07-12T22:22:47.475Z",
+        "speed": 0,
+        "heading": 0
+      }
+    ],
+    "totalDistance": 0,
+    "status": "online",
+    "lastUpdate": "2025-07-12T22:22:47.475Z"
+  }
+}

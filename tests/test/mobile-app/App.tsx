@@ -51,13 +51,13 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
   if (data) {
     const { locations } = data as any;
     const location = locations[0];
-
+    
     if (location) {
       try {
         // Get stored settings
         const vehicleId = await AsyncStorage.getItem('vehicleId') || 'PATROL-001';
-        const serverUrl = await AsyncStorage.getItem('serverUrl') || '192.168.100:3001';
-
+        const serverUrl = await AsyncStorage.getItem('serverUrl') || 'http://192.168.1.100:3001';
+        
         const locationData: LocationData = {
           vehicleId,
           latitude: location.coords.latitude,
@@ -110,12 +110,12 @@ const storeFailedLocation = async (locationData: LocationData) => {
     const failedLocations = await AsyncStorage.getItem('failedLocations');
     const locations = failedLocations ? JSON.parse(failedLocations) : [];
     locations.push(locationData);
-
+    
     // Keep only last 100 failed locations
     if (locations.length > 100) {
       locations.splice(0, locations.length - 100);
     }
-
+    
     await AsyncStorage.setItem('failedLocations', JSON.stringify(locations));
   } catch (error) {
     console.error('Error storing failed location:', error);
@@ -124,7 +124,7 @@ const storeFailedLocation = async (locationData: LocationData) => {
 
 const App = () => {
   const [vehicleId, setVehicleId] = useState('PATROL-001');
-  const [serverUrl, setServerUrl] = useState("http://localhost:8081");
+  const [serverUrl, setServerUrl] = useState('http://192.168.1.100:3001');
   const [isTracking, setIsTracking] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<LocationData | null>(null);
   const [lastSentTime, setLastSentTime] = useState<Date | null>(null);
@@ -137,7 +137,7 @@ const App = () => {
     loadSettings();
     requestPermissions();
     checkNetworkStatus();
-
+    
     // Monitor app state changes
     const handleAppStateChange = (nextAppState: string) => {
       if (nextAppState === 'background' && isTracking) {
@@ -159,7 +159,7 @@ const App = () => {
     try {
       const savedVehicleId = await AsyncStorage.getItem('vehicleId');
       const savedServerUrl = await AsyncStorage.getItem('serverUrl');
-
+      
       if (savedVehicleId) setVehicleId(savedVehicleId);
       if (savedServerUrl) setServerUrl(savedServerUrl);
     } catch (error) {
@@ -193,8 +193,8 @@ const App = () => {
       const { status: foregroundStatus } = await Location.requestForegroundPermissionsAsync();
       if (foregroundStatus !== 'granted') {
         Alert.alert(
-          'Άδεια Τοποθεσίας',
-          'Η εφαρμογή χρειάζεται πρόσβαση στην τοποθεσία για να λειτουργήσει',
+          'Location Permission Required',
+          'This app needs location access to track the vehicle. Please enable location permissions in Settings.',
           [
             { text: 'Cancel', style: 'cancel' },
             { text: 'Open Settings', onPress: () => Linking.openSettings() }
@@ -206,23 +206,20 @@ const App = () => {
       const { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
       if (backgroundStatus !== 'granted') {
         Alert.alert(
-          'Background Location',
-          'Για καλύτερη λειτουργία, επιτρέψτε την πρόσβαση στην τοποθεσία στο background',
+          'Background Location Required',
+          'For continuous tracking, please allow "Allow all the time" location access in Settings.',
           [
             { text: 'Continue without background', style: 'cancel' },
             { text: 'Open Settings', onPress: () => Linking.openSettings() }
           ]
         );
+        // Continue even without background permission for now
       }
 
       // Request notification permissions
       const { status: notificationStatus } = await Notifications.requestPermissionsAsync();
       if (notificationStatus !== 'granted') {
         console.log('Notification permission not granted');
-        Alert.alert(
-          'Notifications',
-          'Η εφαρμογή χρειάζεται άδεια για notifications'
-        );
       }
 
       return true;
@@ -310,7 +307,7 @@ const App = () => {
       const remainingFailed = locations.filter(
         (loc: LocationData) => !successfulRetries.includes(loc)
       );
-
+      
       await AsyncStorage.setItem('failedLocations', JSON.stringify(remainingFailed));
     } catch (error) {
       console.error('Error retrying failed locations:', error);
@@ -322,41 +319,46 @@ const App = () => {
       Alert.alert('Σφάλμα', 'Παρακαλώ εισάγετε Vehicle ID');
       return;
     }
+
     console.log('Starting tracking process...');
+
     const hasPermission = await requestPermissions();
     if (!hasPermission) {
       console.log('Permissions not granted');
       return;
     }
+
     console.log('Permissions granted, starting location updates...');
+
     try {
       // Connect to Socket.IO server
       const socketUrl = serverUrl.replace('/api/location', '');
       const newSocket = io(socketUrl);
       setSocket(newSocket);
-
+      
       newSocket.on('connect', () => {
         console.log('Connected to socket server');
         // Notify server that this vehicle is connected
         newSocket.emit('vehicleConnect', vehicleId);
       });
-
+      
       newSocket.on('disconnect', () => {
         console.log('Disconnected from socket server');
       });
-
+      
       // Check if task is already registered
       const isTaskRegistered = await TaskManager.isTaskRegisteredAsync(LOCATION_TASK_NAME);
       if (isTaskRegistered) {
         console.log('Task already registered, stopping first...');
         await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
       }
+
       // Start background location tracking
       await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
         accuracy: Location.Accuracy.High,
-        timeInterval: 10000, // 10 seconds (less aggressive for battery)
-        distanceInterval: 5, // 5 meters
-        deferredUpdatesInterval: 10000,
+        timeInterval: 15000, // 15 seconds
+        distanceInterval: 10, // 10 meters
+        deferredUpdatesInterval: 15000,
         foregroundService: {
           notificationTitle: 'Παρακολούθηση Οχήματος',
           notificationBody: 'Η εφαρμογή παρακολουθεί τη θέση του οχήματος',
@@ -364,6 +366,7 @@ const App = () => {
           killServiceOnDestroy: false,
         },
       });
+
       console.log('Location updates started successfully');
 
       setIsTracking(true);
@@ -382,9 +385,8 @@ const App = () => {
 
       Alert.alert('Επιτυχία', 'Η παρακολούθηση ξεκίνησε');
     } catch (error) {
-      ``
       console.error('Start tracking error:', error);
-      Alert.alert('Σφάλμα', `Δεν ήταν δυνατή η έναρξη της παρακολούθησης: ${error}`);
+      Alert.alert('Σφάλμα', `Δεν ήταν δυνατή η έναρξη της παρακολούθησης: ${error.message}`);
     }
   };
 
@@ -396,7 +398,7 @@ const App = () => {
         socket.disconnect();
         setSocket(null);
       }
-
+      
       await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
       setIsTracking(false);
       Alert.alert('Επιτυχία', 'Η παρακολούθηση σταμάτησε');
@@ -409,7 +411,7 @@ const App = () => {
   const testConnection = async () => {
     try {
       await checkNetworkStatus();
-
+      
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
@@ -417,9 +419,9 @@ const App = () => {
         method: 'GET',
         signal: controller.signal,
       });
-
+      
       clearTimeout(timeoutId);
-
+      
       if (response.ok) {
         Alert.alert('Επιτυχία', 'Η σύνδεση με τον server είναι επιτυχής');
       } else {
@@ -435,7 +437,7 @@ const App = () => {
       const location = await getCurrentLocation();
       setCurrentLocation(location);
       const success = await sendLocationToServerLocal(location);
-
+      
       if (success) {
         Alert.alert('Επιτυχία', 'Η θέση στάλθηκε επιτυχώς');
       } else {
@@ -449,11 +451,11 @@ const App = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1f2937" />
-
+      
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Παρακολούθηση Οχήματος</Text>
-        <View style={[styles.statusIndicator, {
-          backgroundColor: isConnected ? '#10b981' : '#ef4444'
+        <View style={[styles.statusIndicator, { 
+          backgroundColor: isConnected ? '#10b981' : '#ef4444' 
         }]} />
       </View>
 
@@ -461,7 +463,7 @@ const App = () => {
         {/* Settings Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Ρυθμίσεις</Text>
-
+          
           <Text style={styles.label}>Vehicle ID</Text>
           <TextInput
             style={styles.input}
@@ -470,7 +472,7 @@ const App = () => {
             placeholder="π.χ. PATROL-001"
             placeholderTextColor="#9ca3af"
           />
-
+          
           <Text style={styles.label}>Server URL</Text>
           <TextInput
             style={styles.input}
@@ -480,7 +482,7 @@ const App = () => {
             placeholderTextColor="#9ca3af"
             autoCapitalize="none"
           />
-
+          
           <TouchableOpacity style={styles.secondaryButton} onPress={saveSettings}>
             <Text style={styles.secondaryButtonText}>Αποθήκευση Ρυθμίσεων</Text>
           </TouchableOpacity>
@@ -489,7 +491,7 @@ const App = () => {
         {/* Control Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Έλεγχος</Text>
-
+          
           <View style={styles.switchContainer}>
             <Text style={styles.switchLabel}>Παρακολούθηση</Text>
             <Switch
@@ -499,11 +501,11 @@ const App = () => {
               thumbColor={isTracking ? '#ffffff' : '#9ca3af'}
             />
           </View>
-
+          
           <TouchableOpacity style={styles.secondaryButton} onPress={testConnection}>
             <Text style={styles.secondaryButtonText}>Δοκιμή Σύνδεσης</Text>
           </TouchableOpacity>
-
+          
           <TouchableOpacity style={styles.secondaryButton} onPress={sendTestLocation}>
             <Text style={styles.secondaryButtonText}>Αποστολή Δοκιμαστικής Θέσης</Text>
           </TouchableOpacity>
@@ -512,7 +514,7 @@ const App = () => {
         {/* Status Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Κατάσταση</Text>
-
+          
           <View style={styles.statusGrid}>
             <View style={styles.statusCard}>
               <Text style={styles.statusValue}>{sentCount}</Text>
@@ -523,7 +525,7 @@ const App = () => {
               <Text style={styles.statusLabel}>Σφάλματα</Text>
             </View>
           </View>
-
+          
           {currentLocation && (
             <View style={styles.locationInfo}>
               <Text style={styles.locationTitle}>Τρέχουσα Θέση</Text>
@@ -538,7 +540,7 @@ const App = () => {
               </Text>
             </View>
           )}
-
+          
           {lastSentTime && (
             <Text style={styles.lastSent}>
               Τελευταία αποστολή: {lastSentTime.toLocaleTimeString('el-GR')}

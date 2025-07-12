@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import { Icon } from 'leaflet';
-import { Car, MapPin, Clock, BarChart3, Users, Route, Download, Calendar } from 'lucide-react';
+import { Car, MapPin, Clock, BarChart3, Users, Route, Download, Calendar, Bell, BellOff } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
 // Fix for default markers in react-leaflet
@@ -38,6 +38,29 @@ interface DayStats {
   vehiclesCount: number;
 }
 
+interface VehicleConnectionStatus {
+  vehicleId: string;
+  connected: boolean;
+}
+// Component to handle map centering
+const MapController = ({ center, zoom }: { center: [number, number] | null, zoom?: number }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (center) {
+      map.setView(center, zoom || map.getZoom(), {
+        animate: true,
+        duration: 1
+      });
+    }
+  }, [center, zoom, map]);
+
+  return null;
+};
+
+
+
+
 function App() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [vehicles, setVehicles] = useState<Map<string, VehicleData>>(new Map());
@@ -46,6 +69,22 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [showOfflineVehicles, setShowOfflineVehicles] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [connectedVehicles, setConnectedVehicles] = useState<Set<string>>(new Set());
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
+  // Function to handle vehicle selection and map centering
+  const handleVehicleSelect = (vehicleId: string) => {
+    setSelectedVehicle(vehicleId);
+
+    // Center map on selected vehicle
+    const vehicle = vehicles.get(vehicleId);
+    if (vehicle && vehicle.positions.length > 0) {
+      const lastPosition = vehicle.positions[vehicle.positions.length - 1];
+      setMapCenter([lastPosition.latitude, lastPosition.longitude]);
+    }
+  };
+
+
 
   // Function to check if vehicle is active (sent data within last minute)
   const isVehicleActive = (vehicle: VehicleData): boolean => {
@@ -57,10 +96,11 @@ function App() {
 
   useEffect(() => {
     // Connect to Socket.IO server (will be running on port 3001)
-    const newSocket = io("https://armyfire-production.up.railway.app", {
+    const newSocket = io("http://localhost:3001", {
       transports: ["websocket"],
       withCredentials: true,
     });
+    setSocket(newSocket);
 
     newSocket.on('connect', () => {
       setIsConnected(true);
@@ -105,6 +145,17 @@ function App() {
 
     newSocket.on('dayStats', (stats: DayStats) => {
       setDayStats(stats);
+    });
+    newSocket.on('vehicleConnectionStatus', (status: VehicleConnectionStatus) => {
+      setConnectedVehicles(prev => {
+        const newConnected = new Set(prev);
+        if (status.connected) {
+          newConnected.add(status.vehicleId);
+        } else {
+          newConnected.delete(status.vehicleId);
+        }
+        return newConnected;
+      });
     });
 
     return () => {
@@ -181,12 +232,14 @@ function App() {
 
   const loadHistoricalData = async (date: string) => {
     try {
+      console.log(date);
       const response = await fetch(`http://localhost:3001/api/history/${date}`);
 
       if (!response.ok) {
         if (response.status === 404) {
           // Clear vehicles and show empty state instead of error
           setVehicles(new Map());
+          setConnectedVehicles(new Set());
           setDayStats({
             date: date,
             totalDistance: 0,
@@ -199,6 +252,7 @@ function App() {
       }
 
       const data = await response.json();
+      console.log(data);// dokimastiko
       const vehicleMap = new Map();
       let totalDistance = 0;
 
@@ -216,6 +270,8 @@ function App() {
       });
 
       setVehicles(vehicleMap);
+      // For historical data, show all vehicles as "connected" for display purposes
+      setConnectedVehicles(new Set(Object.keys(data)));
       setDayStats({
         date: date,
         totalDistance: totalDistance,
@@ -226,6 +282,7 @@ function App() {
       console.error('Load historical data error:', error);
       // Clear vehicles for failed requests
       setVehicles(new Map());
+      setConnectedVehicles(new Set());
       setDayStats({
         date: date,
         totalDistance: 0,
@@ -270,6 +327,10 @@ function App() {
   const selectedVehicleData = selectedVehicle ? vehicles.get(selectedVehicle) : null;
   // Filter vehicles based on offline visibility setting and activity
   const filteredVehicles = vehicleArray.filter(vehicle => {
+    // For today's data, only show vehicles that are socket-connected
+    if (isToday(selectedDate) && !connectedVehicles.has(vehicle.id)) {
+      return false;
+    }
     // Always hide vehicles that haven't sent data for more than 1 minute (only for today)
     if (isToday(selectedDate) && !isVehicleActive(vehicle)) {
       return false;
@@ -288,6 +349,12 @@ function App() {
           <div className="flex items-center space-x-3">
             <Car className="h-8 w-8 text-blue-500" />
             <h1 className="text-xl font-bold">Σύστημα Παρακολούθησης Περιπολιών</h1>
+            {notificationsEnabled && (
+              <div className="flex items-center space-x-1 text-green-400">
+                <Bell className="h-4 w-4" />
+                <span className="text-xs">Notifications ON</span>
+              </div>
+            )}
           </div>
           <div className="flex items-center space-x-2">
             <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
@@ -406,7 +473,7 @@ function App() {
                       ? 'bg-blue-600 border border-blue-500'
                       : 'bg-gray-700 hover:bg-gray-600'
                       }`}
-                    onClick={() => setSelectedVehicle(vehicle.id)}
+                    onClick={() => handleVehicleSelect(vehicle.id)}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
@@ -438,16 +505,17 @@ function App() {
         {/* Map */}
         <div className="flex-1 relative">
           <MapContainer
-            center={[37.9755, 23.7348]} // Athens coordinates
+            center={[39.6390, 22.4191]} // Larisa coordinates
             zoom={10}
             className="w-full h-full"
           >
+            <MapController center={mapCenter} zoom={14} />
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
 
-            {vehicleArray.map(vehicle => {
+            {filteredVehicles.map(vehicle => {
               const lastPosition = vehicle.positions[vehicle.positions.length - 1];
               if (!lastPosition) return null;
 

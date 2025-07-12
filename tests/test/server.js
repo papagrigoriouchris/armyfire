@@ -4,56 +4,23 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
 const app = express();
-
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-
-app.use(cors({
-  origin: [
-    "http://localhost:8082",
-    "http://localhost:8081",
-    "https://armyfire-production.up.railway.app",
-    "http://localhost:4173/"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-}));
-
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    credentials: true,
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"]
   }
 });
 
-
-
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'dist')));
-
-const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Today's file: ${getTodayFilename()}`);
-});
-
-
 
 // Data storage
 const DATA_DIR = './data';
-const connectedVehicles = new Set();
-
-console.log(`Data will be saved to: ${DATA_DIR}`);
 const vehicleData = new Map();
+const connectedVehicles = new Set();
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {
@@ -73,11 +40,9 @@ const getTodayFilename = () => {
 // Load today's data
 const loadTodayData = () => {
   const filename = getTodayFilename();
-  //console.log(filename);
   if (fs.existsSync(filename)) {
     try {
       const data = JSON.parse(fs.readFileSync(filename, 'utf8'));
-      console.log(data);
       return data;
     } catch (error) {
       console.error('Error loading today\'s data:', error);
@@ -238,8 +203,7 @@ app.post('/api/location', (req, res) => {
   todayData[vehicleId].totalDistance = calculateTotalDistance(todayData[vehicleId].positions);
 
   // Save to file
-  saveTodayData(todayData);// dokiamstiko
-
+  saveTodayData(todayData);
 
   // Broadcast to all connected clients
   io.emit('vehicleUpdate', {
@@ -250,6 +214,7 @@ app.post('/api/location', (req, res) => {
     speed,
     heading
   });
+
   // Broadcast connection status
   io.emit('vehicleConnectionStatus', {
     vehicleId,
@@ -309,9 +274,6 @@ app.get('/api/vehicles/:vehicleId', (req, res) => {
 // API endpoint to get historical data
 app.get('/api/history/:date', (req, res) => {
   const { date } = req.params;
-
-  console.log(date); // dokismiastiko
-
   const filename = path.join(DATA_DIR, `${date}.json`);
 
   if (!fs.existsSync(filename)) {
@@ -324,10 +286,6 @@ app.get('/api/history/:date', (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error reading historical data' });
   }
-});
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // Clean up old vehicle data (mark as offline after 5 minutes of inactivity)
@@ -354,3 +312,9 @@ setInterval(() => {
   });
 }, 60000); // Check every minute
 
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Data will be saved to: ${DATA_DIR}`);
+  console.log(`Today's file: ${getTodayFilename()}`);
+});
