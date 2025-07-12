@@ -72,6 +72,9 @@ function App() {
   const [connectedVehicles, setConnectedVehicles] = useState<Set<string>>(new Set());
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [mapCenter, setMapCenter] = useState<[number, number] | null>(null);
+
+  const server = "https://armyfire-production.up.railway.app";
+
   // Function to handle vehicle selection and map centering
   const handleVehicleSelect = (vehicleId: string) => {
     setSelectedVehicle(vehicleId);
@@ -200,7 +203,7 @@ function App() {
   const exportData = async (date?: string) => {
     try {
       const exportDate = date || getTodayString();
-      const response = await fetch(`http://localhost:3001/api/history/${exportDate}`);
+      const response = await fetch(`${server}/api/history/${exportDate}`);
 
       if (!response.ok) {
         if (response.status === 404) {
@@ -233,7 +236,7 @@ function App() {
   const loadHistoricalData = async (date: string) => {
     try {
       console.log(date);
-      const response = await fetch(`http://localhost:3001/api/history/${date}`);
+      const response = await fetch(`${server}/api/history/${date}`);
 
       if (!response.ok) {
         if (response.status === 404) {
